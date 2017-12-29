@@ -25,16 +25,16 @@ class Paymenthub {
     }
     return this.device.gatt.connect();
   }
-  
+
   readColor() {
     return this.device.gatt.getPrimaryService("d4634412-4590-4776-a7e0-7df5230e4a72")
-    .then(service => service.getCharacteristic(0xFFFC))
+    .then(service => service.getCharacteristic("9A5EFFB1-5210-4A71-A7A3-CC0CBE2CA0B7"))
     .then(characteristic => characteristic.readValue());
   }
 
   writeColor(data) {
     return this.device.gatt.getPrimaryService("d4634412-4590-4776-a7e0-7df5230e4a72")
-    .then(service => service.getCharacteristic(0xFFFC))
+    .then(service => service.getCharacteristic("FA4DEE4D-4086-4372-8DE4-D96339451DC7"))
     .then(characteristic => characteristic.writeValue(data));
   }
 
