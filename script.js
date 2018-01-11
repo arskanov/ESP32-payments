@@ -1,4 +1,3 @@
-Promise.longStackTraces();
 
 class Paymenthub {
 
@@ -82,5 +81,3 @@ document.getElementById("writebutton").addEventListener('click', event => {
                     console.log(err.stack);
   });
 });
-
-
