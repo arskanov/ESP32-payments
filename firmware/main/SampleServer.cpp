@@ -21,12 +21,19 @@ static char LOG_TAG[] = "SampleServer";
 
 /* Define callback for a write action */
 BLECharacteristic *idid;
+Payment *pPymt;
 class CB_SignedWrite: public BLECharacteristicCallbacks
 {
 public:
 	void onWrite(BLECharacteristic *pCharacteristic){
-		idid->setValue( pCharacteristic->getValue());
+		//idid->setValue( pCharacteristic->getValue());
 		ESP_LOGD(LOG_TAG, "Callback for Signed Write called: %s\n ", pCharacteristic->getValue().c_str());
+		if (pPymt->confirm(pCharacteristic->getValue()))
+		{
+			/* Something */
+		}
+
+
 	}
 };
 
@@ -37,31 +44,29 @@ class MainBLEServer: public Task {
 		ESP_LOGD(LOG_TAG, "Starting BLE work!");
 
 		Payment pymt;
+		pPymt = &pymt;
 
 		/* Create our server with charesteristics */
 		BLEDevice::init("Pay here!");
 		BLEServer *pServer = BLEDevice::createServer();
-
 		BLEService *pService = pServer->createService("d4634412-4590-4776-a7e0-7df5230e4a72");
 
-		BLECharacteristic *pIdCharesteristic = pService->createCharacteristic(
+		/* This is to be read by master (user) */
+		BLECharacteristic *signThis = pService->createCharacteristic(
 			BLEUUID("9a5effb1-5210-4a71-a7a3-cc0cbe2ca0b7"),
 			BLECharacteristic::PROPERTY_READ
 		);
-		/* Set pointer value */
-		idid = pIdCharesteristic;
 
-		/*BLECharacteristic *pSaltCharesteristic = pService->createCharacteristic(
-			BLEUUID("a4b23e18-95aa-4356-b17c-c376c2d48098"),
-			BLECharacteristic::PROPERTY_READ
-		);*/
+		/* Set global pointer value once we have created the char. */
+		idid = signThis;
 
+		/* Assign charesteristic value*/
+		char buf[20];
+		snprintf(buf, 10, "%d", pymt.input);
+		std::string str = std::string(buf);
+		signThis->setValue(str);
 
-		/* Set values */
-		 ss << pymt.input();
-		std::string str = ss.str();
-		pIdCharesteristic->setValue(str);
-
+		/* This is where we can write the signed response */
 		BLECharacteristic *pSignedCharesteristic = pService->createCharacteristic(
 			BLEUUID("fa4dee4d-4086-4372-8de4-d96339451dc7"),
 			BLECharacteristic::PROPERTY_WRITE

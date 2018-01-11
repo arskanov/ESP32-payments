@@ -12,7 +12,16 @@ Payment::Payment()
 {
 	/* Initialize payment */
 	input = esp_random();
-
 }
+
+int Payment::confirm(std::string signed_output)
+{
+
+	if ( signed_output == "1337" )
+		return 1;
+	else
+		return 0;
+}
+
 
 
