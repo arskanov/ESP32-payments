@@ -55,15 +55,18 @@ var paymenthub = new Paymenthub();
 document.getElementById("readbutton").addEventListener('click', event => {
   paymenthub.request()
   .then(_ => paymenthub.connect())
-  .then(_ => { 
-    var t = document.getElementById("tout").innerHTML
-    console.log("Tout is: ", t)
-    r = paymenthub.readColor()
+  .then(_ => {
+    var t = document.getElementById("tout").innerHTML;
+    //console.log("Tout is: ", t);
+    r = paymenthub.readColor();
     var enc = new TextDecoder();
-    console.log("Read gave ", enc.decode(r))
+    //console.log("Read gave ", enc.decode(r))
     document.getElementById("tout").innerHTML = enc.decode(r)
   })
-  .catch(error => { console.log(error) });
+  .catch(error => {function (err) {
+                    console.log(err.message);
+                    console.log(err.stack);
+  });
 });
 
 document.getElementById("writebutton").addEventListener('click', event => {
@@ -72,10 +75,13 @@ document.getElementById("writebutton").addEventListener('click', event => {
   .then(_ => { 
     var enc = new TextEncoder("utf-8");
     var t = document.getElementById("tin").innerHTML
-    console.log("Connected to device, writing ", t, " to device")
+    //console.log("Connected to device, writing ", t, " to device")
     paymenthub.writeColor(enc.encode(t))
   })
-  .catch(error => { console.log(error) });
+  .catch(error => { function (err) {
+                    console.log(err.message);
+                    console.log(err.stack);
+  });
 });
 
 
