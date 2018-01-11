@@ -63,7 +63,7 @@ document.getElementById("readbutton").addEventListener('click', event => {
     //console.log("Read gave ", enc.decode(r))
     document.getElementById("tout").innerHTML = enc.decode(r)
   })
-  .catch(error => {function (err) {
+  .catch(error => function (err) {
                     console.log(err.message);
                     console.log(err.stack);
   });
