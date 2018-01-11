@@ -5,7 +5,7 @@
   box-sizing: content-box;
   cursor: pointer;
   padding: 10px 20px;
-  border: 1px solid #018dc4;
+  border: none;
   -webkit-border-radius: 8px;
   border-radius: 8px;
   font: normal 16px/normal Verdana, Geneva, sans-serif;
