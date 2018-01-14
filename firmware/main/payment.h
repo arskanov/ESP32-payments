@@ -15,7 +15,8 @@
 class Payment {
 
 private:
-
+	/* Save a library-compatible public key here, used only to verify messages */
+	const std::string pubkey = "x1337key";
 public:
 	unsigned int input;
 

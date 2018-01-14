@@ -16,7 +16,14 @@ Payment::Payment()
 
 int Payment::confirm(std::string signed_output)
 {
-
+	/*
+	 * Should actually implement an asymmetric cypher verification
+	 * against the Payment classes pubkey
+	 *
+	 * An example can be found at https://github.com/keepkey/keepkey-firmware/blob/master/keepkey/local/baremetal/exchange.c
+	 * and
+	 * crypto.c, cryptoMessageVerify()
+	 */
 	if ( signed_output == "1337" )
 		return 1;
 	else

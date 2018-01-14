@@ -19,7 +19,8 @@ extern "C" {
 static char LOG_TAG[] = "SampleServer";
 
 
-/* Define callback for a write action */
+/* Define callback for a received signature action */
+
 BLECharacteristic *idid;
 Payment *pPymt;
 class CB_SignedWrite: public BLECharacteristicCallbacks
@@ -30,7 +31,7 @@ public:
 		ESP_LOGD(LOG_TAG, "Callback for Signed Write called: %s\n ", pCharacteristic->getValue().c_str());
 		if (pPymt->confirm(pCharacteristic->getValue()))
 		{
-			/* Something */
+			ESP_LOGD(LOG_TAG, "Succesfully confirmed payment!\n ");
 		}
 
 
