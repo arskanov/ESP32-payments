@@ -39,7 +39,6 @@ public:
 };
 
 
-
 class MainBLEServer: public Task {
 	void run(void *data) {
 		ESP_LOGD(LOG_TAG, "Starting BLE work!");
