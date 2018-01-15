@@ -1,3 +1,26 @@
+var realtypeof = function (obj) {
+    switch (typeof(obj)) {
+        // object prototypes
+        case 'object':
+            if (obj instanceof Array)
+                return '[object Array]';
+            else if (obj instanceof Date)
+                return '[object Date]';
+            else if (obj instanceof RegExp)
+                return '[object regexp]';
+            else if (obj instanceof String)
+                return '[object String]';
+            else if (obj instanceof Number)
+                return '[object Number]';
+
+            else
+                return 'object';
+        // object literals
+        default:
+            return typeof(obj);
+    }   
+};
+
 
 class Paymenthub {
 
@@ -58,8 +81,9 @@ document.getElementById("readbutton").addEventListener('click', event => {
   .then(_ => paymenthub.connect())
   .then(_ => {
     let r = paymenthub.readColor();
+    realtypeof(r);
     let decoder = new TextDecoder('utf-8');
-    document.getElementById("tout").innerHTML = decoder.decode(r)
+    document.getElementById("tout").innerHTML = decoder.decode(r);
   })
   .catch( function (err) {
                     console.log(err.message);
@@ -72,8 +96,8 @@ document.getElementById("writebutton").addEventListener('click', event => {
   .then(_ => paymenthub.connect())
   .then(_ => { 
     var enc = new TextEncoder("utf-8");
-    var t = document.getElementById("tin").innerHTML
-    paymenthub.writeColor(enc.encode(t))
+    var t = document.getElementById("tin").innerHTML;
+    paymenthub.writeColor(enc.encode(t));
   })
   .catch( function (err) {
                     console.log(err.message);
