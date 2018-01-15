@@ -79,11 +79,13 @@ var paymenthub = new Paymenthub();
 document.getElementById("readbutton").addEventListener('click', event => {
   paymenthub.request()
   .then(_ => paymenthub.connect())
-  .then(_ => {
-    let r = paymenthub.readColor();
-    realtypeof(r);
-    let decoder = new TextDecoder('utf-8');
-    document.getElementById("tout").innerHTML = decoder.decode(r);
+  .then(_ => paymenthub.readColor())
+  .then(value => {
+      document.getElementById("tout").innerHTML = decoder.decode(r);
+    //let r = 
+    //realtypeof(r);
+    //let decoder = new TextDecoder('utf-8');
+    
   })
   .catch( function (err) {
                     console.log(err.message);
