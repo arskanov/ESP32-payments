@@ -57,10 +57,9 @@ document.getElementById("readbutton").addEventListener('click', event => {
   paymenthub.request()
   .then(_ => paymenthub.connect())
   .then(_ => {
-    var t = document.getElementById("tout").innerHTML;
-    r = paymenthub.readColor();
-    var enc = new TextDecoder();
-    document.getElementById("tout").innerHTML = enc.decode(r)
+    let r = paymenthub.readColor();
+    let decoder = new TextDecoder('utf-8');
+    document.getElementById("tout").innerHTML = decoder.decode(r)
   })
   .catch( function (err) {
                     console.log(err.message);
