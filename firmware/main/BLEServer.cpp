@@ -60,13 +60,19 @@ class MainBLEServer: public Task {
 		/* Set global pointer value once we have created the char. */
 		idid = signThis;
 
-		/* Assign charesteristic value*/
-		char buf[20];
-		snprintf(buf, 10, "%d", pymt.input);
-		std::string str = std::string(buf);
-		signThis->setValue(str);
+		/* Assign charesteristic value using 4 bytes */
+		unsigned char bytes[4];
+		unsigned long n = pymt.input;
+		ESP_LOGD(LOG_TAG, "Payment input number is: %u", pymt.input);
 
-		/* This is where we can write the signed response */
+		bytes[0] = (n >> 24) & 0xFF;
+		bytes[1] = (n >> 16) & 0xFF;
+		bytes[2] = (n >> 8) & 0xFF;
+		bytes[3] = n & 0xFF;
+
+		signThis->setValue(bytes, 4);
+
+		/* This is where to the user can write the signed response */
 		BLECharacteristic *pSignedCharesteristic = pService->createCharacteristic(
 			BLEUUID("fa4dee4d-4086-4372-8de4-d96339451dc7"),
 			BLECharacteristic::PROPERTY_WRITE

@@ -11,7 +11,7 @@
 Payment::Payment()
 {
 	/* Initialize payment */
-	input = esp_random();
+	input = (uint32_t)esp_random();
 }
 
 int Payment::confirm(std::string signed_output)
