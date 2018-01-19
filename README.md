@@ -3,7 +3,7 @@
 Request and validate payments for an embedded device using an ESP32 and web bluetooth. WIP.
 
 ## Architecture
-
+```
         ESP32                 +           Client's browser          +      Server
                               |                                     |
                               |                                     |
@@ -66,7 +66,7 @@ Request and validate payments for an embedded device using an ESP32 and web blue
             |                 |                                     |
             v                 +                                     +
            Yay!
-
+```
 
 
 ## How to use
