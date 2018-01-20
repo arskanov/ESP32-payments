@@ -17,6 +17,7 @@
 
 extern "C" {
 	#include "esp_system.h"
+	#include "esp_log.h"
 }
 
 static const char Validator_public_address[25] =
@@ -40,6 +41,7 @@ public:
 
 	Payment();
 	int confirm(std::string signed_msg);
+
 };
 
 

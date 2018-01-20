@@ -19,7 +19,12 @@ extern "C" {
 static char LOG_TAG[] = "SampleServer";
 
 
-/* Define callback for a received signature action */
+/* Define callback for a received signature action.
+ * Since we always receive 65 bytes of data
+ * we receive data in 20 byte segments. Assuming
+ * that the length of the fourth packet is always 5
+ * we can use this to know when we're done receiving
+ */
 
 BLECharacteristic *idid;
 Payment *pPymt;
@@ -27,13 +32,55 @@ class CB_SignedWrite: public BLECharacteristicCallbacks
 {
 public:
 	void onWrite(BLECharacteristic *pCharacteristic){
-		//idid->setValue( pCharacteristic->getValue());
-		ESP_LOGD(LOG_TAG, "Callback for Signed Write called: %s\n ", pCharacteristic->getValue().c_str());
-		if (pPymt->confirm(pCharacteristic->getValue()))
-		{
-			ESP_LOGD(LOG_TAG, "Succesfully confirmed payment!\n ");
+
+		static std::string signed_message;
+		static uint8_t message_head = 0;
+
+		std::string rxString = pCharacteristic->getValue();
+
+		if (rxString.length() == 0)
+			return;
+
+		ESP_LOGD(LOG_TAG, "Callback for Signed Write called, head at %u, signed msg len %u \n ", message_head, signed_message.length());
+
+		/* Check for first/second/third bytes */
+		if (rxString.length() == 20){
+			if (message_head < 4) {
+
+				message_head++;
+				signed_message += rxString;
+				ESP_LOGD(LOG_TAG, "Signed string len now: %u\n ", signed_message.length());
+			}
+			else {
+				signed_message.clear();
+				signed_message = "";
+				message_head = 0;
+			}
 		}
 
+		/* Check if fourth byte */
+		else if (rxString.length() == 5 && message_head == 3) {
+			ESP_LOGD(LOG_TAG, "Received fourth packet, correct length!\n ");
+
+			signed_message += rxString;
+			ESP_LOGD(LOG_TAG, "Signed message now %u long\n", signed_message.length());
+			if (pPymt->confirm(signed_message))
+			{
+				ESP_LOGD(LOG_TAG, "Succesfully confirmed payment!\n ");
+			}
+			else
+				ESP_LOGD(LOG_TAG, "Payment failed...\n ");
+
+			/* Reset */
+			signed_message.clear();
+			signed_message = "";
+			message_head = 0;
+		} else {
+			/* Reset, don't know what to do */
+			signed_message.clear();
+			signed_message = "";
+			message_head = 0;
+		}
 
 	}
 };

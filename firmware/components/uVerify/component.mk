@@ -8,6 +8,7 @@
 COMPONENT_SRCDIRS := .
 COMPONENT_ADD_INCLUDEDIRS := . 
 COMPONENT_PRIV_INCLUDEDIRS := .
+#CFLAGS:=-D_ESP32=1
 ## Uncomment the following line to enable exception handling 
 #CXXFLAGS+=-fexceptions
 #CXXFLAGS+= -std=c++11

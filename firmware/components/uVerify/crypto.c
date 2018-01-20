@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
+#define _ESP32
 
 #include <string.h>
 #include <cryptoaddress.h>
@@ -30,6 +31,10 @@
 #include <sha2.h>
 #include "crypto.h"
 #include "coins.h"
+
+#ifdef _ESP32
+#include "esp_log.h"
+#endif
 
 uint32_t ser_length(uint32_t len, uint8_t *out)
 {
@@ -109,14 +114,27 @@ int gpgMessageSign(HDNode *node, const uint8_t *message, size_t message_len, uin
 	}
 }
 */
+
+/* Output: uint8_t *hasher
+ * Inputs: everything else
+ */
 static void cryptoMessageHash(const CoinInfo *coin, const uint8_t *message, size_t message_len, uint8_t hash[HASHER_DIGEST_LENGTH]) {
+
+	/* Hasher instance that is updated with _Update */
 	Hasher hasher;
 	hasher_Init(&hasher, coin->curve->hasher_type);
+	/* Hash constant signed message header */
 	hasher_Update(&hasher, (const uint8_t *)coin->signed_message_header, strlen(coin->signed_message_header));
+
+	/* Hash message length as number */
 	uint8_t varint[5];
 	uint32_t l = ser_length(message_len, varint);
 	hasher_Update(&hasher, varint, l);
+
+	/* Finally hash the message length into the hash */
 	hasher_Update(&hasher, message, message_len);
+
+	/* Finalize hash into hash variable */
 	hasher_Double(&hasher, hash);
 }
 
@@ -153,6 +171,7 @@ int cryptoMessageVerify(const CoinInfo *coin, const uint8_t *message, size_t mes
 		return 1;
 	}
 
+	// Get 32byte would-be hash of the coin+message
 	uint8_t hash[HASHER_DIGEST_LENGTH];
 	cryptoMessageHash(coin, message, message_len, hash);
 
@@ -174,8 +193,16 @@ int cryptoMessageVerify(const CoinInfo *coin, const uint8_t *message, size_t mes
 	uint8_t recovered_raw[MAX_ADDR_RAW_SIZE];
 
 	// p2pkh
+#ifdef _ESP32
+	ESP_LOGD("Crypto.c","First Byte of Sig: %u", signature[0]);
+#endif
+
 	if (signature[0] >= 27 && signature[0] <= 34) {
 		size_t len = base58_decode_check(address, coin->curve->hasher_type, addr_raw, MAX_ADDR_RAW_SIZE);
+
+#ifdef _ESP32
+		ESP_LOGD("Crypto.c","Len: %zu", len);
+#endif
 		ecdsa_get_address_raw(pubkey, coin->address_type, coin->curve->hasher_type, recovered_raw);
 		if (memcmp(recovered_raw, addr_raw, len) != 0
 			|| len != address_prefix_bytes_len(coin->address_type) + 20) {
@@ -192,7 +219,7 @@ int cryptoMessageVerify(const CoinInfo *coin, const uint8_t *message, size_t mes
 		}
 	}
 
-
+	/* Success */
 	return 0;
 }
 
