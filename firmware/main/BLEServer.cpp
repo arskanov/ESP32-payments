@@ -62,8 +62,8 @@ class MainBLEServer: public Task {
 
 		/* Assign charesteristic value using 4 bytes */
 		unsigned char bytes[4];
-		unsigned long n = pymt.input;
-		ESP_LOGD(LOG_TAG, "Payment input number is: %u", pymt.input);
+		unsigned long n = pymt.msg;
+		ESP_LOGD(LOG_TAG, "Payment input number is: %u", pymt.msg);
 
 		bytes[0] = (n >> 24) & 0xFF;
 		bytes[1] = (n >> 16) & 0xFF;
@@ -98,9 +98,8 @@ class MainBLEServer: public Task {
 };
 
 
-void SampleServer(void)
+void BLE_Server(void)
 {
-	//esp_log_level_set("*", ESP_LOG_DEBUG);
 	MainBLEServer* pMainBleServer = new MainBLEServer();
 	pMainBleServer->setStackSize(20000);
 	pMainBleServer->start();

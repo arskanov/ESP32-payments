@@ -1,19 +1,13 @@
 /**
- * Main file for running the BLE samples.
+ * Main file for entry point.
  */
 
+extern void BLE_Server();
 
 extern "C" {
-	void app_main(void);
+	void app_main();
 }
 
-
-void SampleServer(void);
-
-//
-// Un-comment ONE of the following
-//            ---
-void app_main(void) {
-
-	SampleServer();
+void app_main() {
+	BLE_Server();
 } // app_main

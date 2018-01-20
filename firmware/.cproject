@@ -36,6 +36,9 @@
 									<listOptionValue builtIn="false" value="../$(IDF_PATH)/components/nvs_flash/include"/>
 									<listOptionValue builtIn="false" value="../$(IDF_PATH)/components/driver/include"/>
 									<listOptionValue builtIn="false" value="../$(IDF_PATH)/components/log/include"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/gatt_cpp_payments/crypto-lib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/gatt_cpp_payments/crypto-lib/trezor-crypto}&quot;"/>
+									<listOptionValue builtIn="false" value="/home/artturi/Programs/newlib-esp32/newlib/"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.576880084" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -54,6 +57,9 @@
 									<listOptionValue builtIn="false" value="../$(IDF_PATH)/components/nvs_flash/include"/>
 									<listOptionValue builtIn="false" value="../$(IDF_PATH)/components/driver/include"/>
 									<listOptionValue builtIn="false" value="../$(IDF_PATH)/components/log/include"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/gatt_cpp_payments/crypto-lib/trezor-crypto}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/gatt_cpp_payments/crypto-lib}&quot;"/>
+									<listOptionValue builtIn="false" value="/home/artturi/Programs/newlib-esp32/newlib/"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1935780238" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -80,8 +86,66 @@
 									<listOptionValue builtIn="false" value="../$(IDF_PATH)/components/nvs_flash/include"/>
 									<listOptionValue builtIn="false" value="../$(IDF_PATH)/components/driver/include"/>
 									<listOptionValue builtIn="false" value="../$(IDF_PATH)/components/log/include"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/gatt_cpp_payments/crypto-lib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/gatt_cpp_payments/crypto-lib/trezor-crypto}&quot;"/>
+									<listOptionValue builtIn="false" value="/home/artturi/Programs/newlib-esp32/newlib/"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1578864230" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<folderInfo id="cdt.managedbuild.toolchain.gnu.cross.base.1363591432.618290705" name="/" resourcePath="components">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.cross.base.731241870" name="Cross GCC" superClass="cdt.managedbuild.toolchain.gnu.cross.base" unusedChildren="">
+							<option id="cdt.managedbuild.option.gnu.cross.prefix.1334679049.898136561" name="Prefix" superClass="cdt.managedbuild.option.gnu.cross.prefix.1334679049"/>
+							<option id="cdt.managedbuild.option.gnu.cross.path.430596327.638443685" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path.430596327"/>
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.targetPlatform.gnu.cross" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
+							<tool id="cdt.managedbuild.tool.gnu.cross.c.compiler.1430975465" name="Cross GCC Compiler" superClass="cdt.managedbuild.tool.gnu.cross.c.compiler.290753431">
+								<option id="gnu.c.compiler.option.include.paths.1277530297" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="/home/artturi/Documents/koodit/embedded/ESP32/snippets-master/cpp_utils"/>
+									<listOptionValue builtIn="false" value="&quot;../${IDF_PATH}/components/esp32/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../${IDF_PATH}/components/newlib/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../${IDF_PATH}/components/freertos/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../${IDF_PATH}/components/nvs_flash/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../${IDF_PATH}/components/driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../${IDF_PATH}/components/log/include&quot;"/>
+									<listOptionValue builtIn="false" value="../$(IDF_PATH)/components/esp32/include"/>
+									<listOptionValue builtIn="false" value="../$(IDF_PATH)/components/newlib/include"/>
+									<listOptionValue builtIn="false" value="../$(IDF_PATH)/components/freertos/include"/>
+									<listOptionValue builtIn="false" value="../$(IDF_PATH)/components/nvs_flash/include"/>
+									<listOptionValue builtIn="false" value="../$(IDF_PATH)/components/driver/include"/>
+									<listOptionValue builtIn="false" value="../$(IDF_PATH)/components/log/include"/>
+									<listOptionValue builtIn="false" value="/home/artturi/Programs/newlib-esp32/newlib/"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/gatt_cpp_payments/main/crypto-lib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/gatt_cpp_payments/main/crypto-lib/trezor-crypto}&quot;"/>
+								</option>
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1399923913" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.compiler.881088223" name="Cross G++ Compiler" superClass="cdt.managedbuild.tool.gnu.cross.cpp.compiler.234901500">
+								<option id="gnu.cpp.compiler.option.include.paths.188136054" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="/home/artturi/Documents/koodit/embedded/ESP32/snippets-master/cpp_utils"/>
+									<listOptionValue builtIn="false" value="&quot;../${IDF_PATH}/components/esp32/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../${IDF_PATH}/components/newlib/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../${IDF_PATH}/components/freertos/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../${IDF_PATH}/components/nvs_flash/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../${IDF_PATH}/components/driver/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../${IDF_PATH}/components/log/include&quot;"/>
+									<listOptionValue builtIn="false" value="../$(IDF_PATH)/components/esp32/include"/>
+									<listOptionValue builtIn="false" value="../$(IDF_PATH)/components/newlib/include"/>
+									<listOptionValue builtIn="false" value="../$(IDF_PATH)/components/freertos/include"/>
+									<listOptionValue builtIn="false" value="../$(IDF_PATH)/components/nvs_flash/include"/>
+									<listOptionValue builtIn="false" value="../$(IDF_PATH)/components/driver/include"/>
+									<listOptionValue builtIn="false" value="../$(IDF_PATH)/components/log/include"/>
+									<listOptionValue builtIn="false" value="/home/artturi/Programs/newlib-esp32/newlib/"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/gatt_cpp_payments/main/crypto-lib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/gatt_cpp_payments/main/crypto-lib/trezor-crypto}&quot;"/>
+								</option>
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1957330952" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.cross.c.linker.1108218756" name="Cross GCC Linker" superClass="cdt.managedbuild.tool.gnu.cross.c.linker.1429302464"/>
+							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.linker.1572882585" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker.389415959"/>
+							<tool id="cdt.managedbuild.tool.gnu.cross.archiver.1687387802" name="Cross GCC Archiver" superClass="cdt.managedbuild.tool.gnu.cross.archiver.1182162294"/>
+							<tool id="cdt.managedbuild.tool.gnu.cross.assembler.437572687" name="Cross GCC Assembler" superClass="cdt.managedbuild.tool.gnu.cross.assembler.990927683">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.2089915661" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 						</toolChain>
 					</folderInfo>
@@ -100,15 +164,6 @@
 		</configuration>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
-	<storageModule moduleId="scannerConfiguration">
-		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.cross.base.1363591432;cdt.managedbuild.toolchain.gnu.cross.base.1363591432.1923212391;cdt.managedbuild.tool.gnu.cross.c.compiler.290753431;cdt.managedbuild.tool.gnu.c.compiler.input.576880084">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.cross.base.1363591432;cdt.managedbuild.toolchain.gnu.cross.base.1363591432.1923212391;cdt.managedbuild.tool.gnu.cross.cpp.compiler.234901500;cdt.managedbuild.tool.gnu.cpp.compiler.input.1935780238">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
-	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets">
 		<buildTargets>
 			<target name="flash" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
@@ -143,5 +198,14 @@
 				<runAllBuilders>true</runAllBuilders>
 			</target>
 		</buildTargets>
+	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.cross.base.1363591432;cdt.managedbuild.toolchain.gnu.cross.base.1363591432.1923212391;cdt.managedbuild.tool.gnu.cross.cpp.compiler.234901500;cdt.managedbuild.tool.gnu.cpp.compiler.input.1935780238">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.cross.base.1363591432;cdt.managedbuild.toolchain.gnu.cross.base.1363591432.1923212391;cdt.managedbuild.tool.gnu.cross.c.compiler.290753431;cdt.managedbuild.tool.gnu.c.compiler.input.576880084">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
 	</storageModule>
 </cproject>

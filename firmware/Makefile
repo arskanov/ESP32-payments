@@ -3,9 +3,8 @@
 # project subdirectory.
 #
 
-PROJECT_NAME := gatt_cpp_payments
-#CFLAGS += -D LOG_LOCAL_LEVEL=ESP_LOG_DEBUG
+PROJECT_NAME := BLE_cpp_payments
 
-COMPONENT_ADD_INCLUDEDIRS := components/include
+COMPONENT_ADD_INCLUDEDIRS := components/include main/crypto-lib
 
 include $(IDF_PATH)/make/project.mk
