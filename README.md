@@ -72,7 +72,7 @@ Request and validate payments for an embedded device using an ESP32 and web blue
 ## How to use
 `web` contains the code for the payment webpage, you can find it hosted on github pages here https://arskanov.github.io/ESP32-payments/web/
 
-# How to build for ESP32
+### How to build for ESP32
 `firmware` contains ESP32 firmware. You'll need to add these to the components subdir:
 - https://github.com/nkolban/esp32-snippets
 - https://github.com/arskanov/trezor-crypto
