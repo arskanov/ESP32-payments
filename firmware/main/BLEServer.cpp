@@ -64,7 +64,8 @@ public:
 
 			signed_message += rxString;
 			ESP_LOGD(LOG_TAG, "Signed message now %u long\n", signed_message.length());
-			if (pPymt->confirm(signed_message))
+
+			if (pPymt->confirm((uint8_t *)signed_message.c_str(), signed_message.length()))
 			{
 				ESP_LOGD(LOG_TAG, "Succesfully confirmed payment!\n ");
 			}
@@ -88,6 +89,7 @@ public:
 
 class MainBLEServer: public Task {
 	void run(void *data) {
+
 		ESP_LOGD(LOG_TAG, "Starting BLE work!");
 
 		Payment pymt;

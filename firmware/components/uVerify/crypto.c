@@ -198,12 +198,14 @@ int cryptoMessageVerify(const CoinInfo *coin, const uint8_t *message, size_t mes
 #endif
 
 	if (signature[0] >= 27 && signature[0] <= 34) {
+		/* This -> is where it goes wrong, returns 0. */
 		size_t len = base58_decode_check(address, coin->curve->hasher_type, addr_raw, MAX_ADDR_RAW_SIZE);
 
 #ifdef _ESP32
-		ESP_LOGD("Crypto.c","Len: %zu", len);
+		ESP_LOGD("Crypto.c","Length of address: %zu", len);
 #endif
 		ecdsa_get_address_raw(pubkey, coin->address_type, coin->curve->hasher_type, recovered_raw);
+		ESP_LOGD("Crypto.c","Memcmp addresses result: %d", memcmp(recovered_raw, addr_raw, len));
 		if (memcmp(recovered_raw, addr_raw, len) != 0
 			|| len != address_prefix_bytes_len(coin->address_type) + 20) {
 			return 2;

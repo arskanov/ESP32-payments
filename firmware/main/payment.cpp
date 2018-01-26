@@ -6,14 +6,22 @@
  */
 
 #include "payment.h"
+#include "string.h"
 
 Payment::Payment()
 {
 	/* Initialize payment */
+
+#ifdef DEBUG
+#warning Not generating random ID!
+	msg = (uint32_t)1337;
+#else
+#warning Not DEBUG!
 	msg = (uint32_t)esp_random();
+#endif
 }
 
-int Payment::confirm(std::string signed_output)
+int Payment::confirm(uint8_t *signature, uint8_t signature_len)
 {
 	/*
 	 * The signed output should be in the format of
@@ -27,21 +35,19 @@ int Payment::confirm(std::string signed_output)
 	/* Generate coin info */
 	const CoinInfo *coin = coinByName("Bitcoin");
 
-	uint8_t signature_len = signed_output.length();
-
 	// Four bytes = uint32 for now
-	char raw_msg_bytes[15];
+	uint8_t message[4];
+	sprintf((char * )message,"%u",msg);
 
-	sprintf(raw_msg_bytes,"%u",msg);
-	std::string rawmsg(raw_msg_bytes);
+	uint8_t rawmsglen = 4;
 
 	/* Debug prints before attempting to verify */
-	ESP_LOGD("Payment", "Signature length: %u\nRawMsgBytes: %s\nRawMsgLength: %u\n",signature_len, rawmsg.c_str(),rawmsg.length());
+	//ESP_LOGD("Payment", "Signature length: %u\nRawMsgBytes: %s\nRawMsgLength: %u\n",signature_len, rawmsg.c_str(),rawmsg.length());
 
 	uint8_t ret = cryptoMessageVerify(coin,
-			(const uint8_t *)rawmsg.c_str(), rawmsg.length(),
+			message, rawmsglen,
 			Validator_public_address,
-			(const uint8_t*)signed_output.c_str());
+			signature);
 
 	if (signature_len == 65 && ret == 0)
 	{
