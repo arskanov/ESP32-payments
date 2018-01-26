@@ -31,33 +31,24 @@ int Payment::confirm(uint8_t *signature, uint8_t signature_len)
 	 * Usually signed messages are encoded in base64,
 	 * so they have to be decoded before being received here.
 	 */
+	if (signature_len != 65)
+		return 0;
 
 	/* Generate coin info */
 	const CoinInfo *coin = coinByName("Bitcoin");
 
-	// Four bytes = uint32 for now
-	uint8_t message[4];
+	/* Read 32byte uint as it's characters */
+	uint8_t message[MSG_MAX_CHARS];
 	sprintf((char * )message,"%u",msg);
-
-	uint8_t rawmsglen = 4;
-
-	/* Debug prints before attempting to verify */
-	//ESP_LOGD("Payment", "Signature length: %u\nRawMsgBytes: %s\nRawMsgLength: %u\n",signature_len, rawmsg.c_str(),rawmsg.length());
-
-	uint8_t ret = cryptoMessageVerify(coin,
+	uint8_t rawmsglen = strlen((char *)message);
+	ESP_LOGD("Payment", "Message strlen = %u", rawmsglen);
+	if ( cryptoMessageVerify(coin,
 			message, rawmsglen,
 			Validator_public_address,
-			signature);
-
-	if (signature_len == 65 && ret == 0)
-	{
+			signature) == 0)
 		return 1;
-	}
 	else
-	{
-		ESP_LOGD("Payment", "Return value from cryptoMessageVerify: %u\n", ret);
 		return 0;
-	}
 }
 
 

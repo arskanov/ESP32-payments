@@ -7,6 +7,7 @@
 #include "BLE2902.h"
 extern "C" {
 	#include "esp_log.h"
+	#include "driver/gpio.h"
 }
 #include <string>
 #include <Task.h>
@@ -17,6 +18,10 @@ extern "C" {
 
 
 static char LOG_TAG[] = "SampleServer";
+
+#define LED_BUILTIN 2
+
+#define BLINK_GPIO (gpio_num_t)LED_BUILTIN
 
 
 /* Define callback for a received signature action.
@@ -68,6 +73,7 @@ public:
 			if (pPymt->confirm((uint8_t *)signed_message.c_str(), signed_message.length()))
 			{
 				ESP_LOGD(LOG_TAG, "Succesfully confirmed payment!\n ");
+				gpio_set_level(BLINK_GPIO, 1);
 			}
 			else
 				ESP_LOGD(LOG_TAG, "Payment failed...\n ");
@@ -89,6 +95,10 @@ public:
 
 class MainBLEServer: public Task {
 	void run(void *data) {
+		/* Config LED GPIO */
+		gpio_pad_select_gpio(BLINK_GPIO);
+	    gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
+	    gpio_set_level(BLINK_GPIO, 0);
 
 		ESP_LOGD(LOG_TAG, "Starting BLE work!");
 

@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
-#define _ESP32
 
 #include <string.h>
 #include <cryptoaddress.h>
@@ -32,9 +31,6 @@
 #include "crypto.h"
 #include "coins.h"
 
-#ifdef _ESP32
-#include "esp_log.h"
-#endif
 
 uint32_t ser_length(uint32_t len, uint8_t *out)
 {
@@ -193,19 +189,9 @@ int cryptoMessageVerify(const CoinInfo *coin, const uint8_t *message, size_t mes
 	uint8_t recovered_raw[MAX_ADDR_RAW_SIZE];
 
 	// p2pkh
-#ifdef _ESP32
-	ESP_LOGD("Crypto.c","First Byte of Sig: %u", signature[0]);
-#endif
-
 	if (signature[0] >= 27 && signature[0] <= 34) {
-		/* This -> is where it goes wrong, returns 0. */
 		size_t len = base58_decode_check(address, coin->curve->hasher_type, addr_raw, MAX_ADDR_RAW_SIZE);
-
-#ifdef _ESP32
-		ESP_LOGD("Crypto.c","Length of address: %zu", len);
-#endif
 		ecdsa_get_address_raw(pubkey, coin->address_type, coin->curve->hasher_type, recovered_raw);
-		ESP_LOGD("Crypto.c","Memcmp addresses result: %d", memcmp(recovered_raw, addr_raw, len));
 		if (memcmp(recovered_raw, addr_raw, len) != 0
 			|| len != address_prefix_bytes_len(coin->address_type) + 20) {
 			return 2;
