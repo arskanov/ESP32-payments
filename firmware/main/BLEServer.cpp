@@ -7,21 +7,17 @@
 #include "BLE2902.h"
 extern "C" {
 	#include "esp_log.h"
-	#include "driver/gpio.h"
 }
 #include <string>
 #include <Task.h>
 #include "payment.h"
-
+#include "HAL.h"
 
 #include "sdkconfig.h"
 
 
 static char LOG_TAG[] = "SampleServer";
 
-#define LED_BUILTIN 2
-
-#define BLINK_GPIO (gpio_num_t)LED_BUILTIN
 
 
 /* Define callback for a received signature action.
@@ -46,7 +42,7 @@ public:
 		if (rxString.length() == 0)
 			return;
 
-		ESP_LOGD(LOG_TAG, "Callback for Signed Write called, head at %u, signed msg len %u \n ", message_head, signed_message.length());
+		ESP_LOGD(LOG_TAG, "Callback for Write called,  RxMessage len = %u (head now at %u, signed msg len %u)", rxString.length(), message_head, signed_message.length());
 
 		/* Check for first/second/third bytes */
 		if (rxString.length() == 20){
@@ -63,9 +59,9 @@ public:
 			}
 		}
 
-		/* Check if fourth byte */
-		else if (rxString.length() == 5 && message_head == 3) {
-			ESP_LOGD(LOG_TAG, "Received fourth packet, correct length!\n ");
+		/* Check if fourth byte or full 65-byte message */
+		else if ( (rxString.length() == 5 && message_head == 3) || rxString.length() == 65 ) {
+			ESP_LOGD(LOG_TAG, "Noted signature, correct length! Starting processing...\n ");
 
 			signed_message += rxString;
 			ESP_LOGD(LOG_TAG, "Signed message now %u long\n", signed_message.length());
@@ -73,7 +69,7 @@ public:
 			if (pPymt->confirm((uint8_t *)signed_message.c_str(), signed_message.length()))
 			{
 				ESP_LOGD(LOG_TAG, "Succesfully confirmed payment!\n ");
-				gpio_set_level(BLINK_GPIO, 1);
+				hal_toggle_builtin_led();
 			}
 			else
 				ESP_LOGD(LOG_TAG, "Payment failed...\n ");
@@ -95,11 +91,7 @@ public:
 
 class MainBLEServer: public Task {
 	void run(void *data) {
-		/* Config LED GPIO */
-		gpio_pad_select_gpio(BLINK_GPIO);
-	    gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
-	    gpio_set_level(BLINK_GPIO, 0);
-
+		hal_init_builtin_led();
 		ESP_LOGD(LOG_TAG, "Starting BLE work!");
 
 		Payment pymt;
