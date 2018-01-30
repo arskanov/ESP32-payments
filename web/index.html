@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
   <!-- Basic Page Needs
@@ -27,7 +28,23 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/png" href="images/favicon.png">
 
+
+  <!-- debugDiv from https://gist.github.com/waynegraham/5766565
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <style>
+    #debugDiv {
+      height: 200px;
+      width: 500px;
+      border: 1px solid #333;
+      overflow: scroll;
+      line-height: 1.5;
+    }
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="console.js"></script>
+
 </head>
+
 <body>
 
   <!-- Primary Page Layout
@@ -36,25 +53,32 @@
     <div class="row">
       <div class="one-half column" style="margin-top: 15%">
         <h4>Maksudemo</h4>
-        <p>Pistä ESP32:seen virrat päälle, paina nappia ja katsotaan mitä tapahtuu!</p>
-        <input id ="paybutton" class="button-primary" type="submit" value="Maksamaan!">
-        <input id ="readbutton" class="button-primary" type="submit" value="Lue data">
-        <input id ="writebutton" class="button-primary" type="submit" value="Kirjoita data">
-        <p id="tout">
-            Non-initialized value here
-        </p>
-        <input type="text" name="tin" value="What to write">
-        
+        <p>Tämän demosivun avulla voit testata maksutapahtuman.</p>
+        <ol>
+          <li>Pistä ESP32:seen virrat päälle </li>
+          <li>Paina "Pyydä Maksutapahtuma"</li>
+          <li>Sivu esittää sinulle maksuosoitteen - ohita se painamalla "Esitä maksavasi"</li>
+          <li>Katso, kuinka ESP32 indikoi maksun tapahtuneen</li>
+        </ol>
+
+
+        <input id="reqpymtbutton" class="button-primary" type="submit" value="Pyydä Maksutapahtuma">
+        <input id="paybutton" class="button-primary" type="submit" value="Esitä maksavasi">
+
         <div class="csection">
-            <h4>ESP32?</h4>
-            <p>Find the firmware <a href="https://github.com/arskanov/ESP32-payments">here</a>.</p>
+          <h4>ESP32?</h4>
+          <p>Find the firmware
+            <a href="https://github.com/arskanov/ESP32-payments">here</a>.</p>
+          <h4>Debug Console</h4>
+          <div id="debugDiv">
+          </div>
         </div>
       </div>
-       
+
     </div>
   </div>
 
-<!-- End Document
+  <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
 
