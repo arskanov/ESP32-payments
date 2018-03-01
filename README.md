@@ -72,6 +72,10 @@ Request and validate payments for an embedded device using an ESP32 and web blue
 ## How to use
 `web` contains the code for the payment webpage, you can find the current version hosted on github pages here https://arskanov.github.io/ESP32-payments/web/. However, no server-side logic can be hosted there. You'll need to host the site locally to test it for now.
 
+Visit the payment website with a mac/linux device with BT 4.0 and a recent Chrome or Opera browser, or use your phone and the same browsers to visit.
+
+Tested on Android 6.0 + Chrome latest stable
+
 ### How to build for ESP32
 `firmware` contains ESP32 firmware. You'll need to add these to the components subdir:
 - https://github.com/nkolban/esp32-snippets
