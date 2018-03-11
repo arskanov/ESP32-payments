@@ -5,12 +5,11 @@ use BitWasp\Bitcoin\Bitcoin;
 use BitWasp\Bitcoin\Key\PrivateKeyFactory;
 use BitWasp\Bitcoin\MessageSigner\MessageSigner;
 
+// Load key
+require_once('key.ini.php');
+
 // Load session
 session_start();
-
-// Load key
-$ini_array = parse_ini_file("key.ini");
-$pkWif = $ini_array['privatekeyWif'];
 
 // We'll return data as JSON
 header('Content-type: application/json');

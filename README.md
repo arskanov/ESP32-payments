@@ -72,6 +72,14 @@ Request and validate payments for an embedded device using an ESP32 and web blue
 ## How to use
 `web` contains the code for the payment webpage, you can find the current version hosted on github pages here https://arskanov.github.io/ESP32-payments/web/. However, no server-side logic can be hosted there. You'll need to host the site locally to test it for now.
 
+To work the PHP scripts need the private key used for signing the messages sent to the offline device. This should be as `key.ini.php`, and should follow the format 
+´´´
+<?php
+$pkWif = "5HueCGU8rMjxEXxiPuD5BDku4MkFqeZyd4dZ1jvhTVqvbTLvyTJ";
+?>
+```
+Key from en.bitcoin.it.
+
 Visit the payment website with a mac/linux device with BT 4.0 and a recent Chrome or Opera browser, or use your phone and the same browsers to visit.
 
 Tested on Android 6.0 + Chrome latest stable
