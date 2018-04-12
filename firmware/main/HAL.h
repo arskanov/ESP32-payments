@@ -10,6 +10,7 @@
 
 void hal_init_builtin_led();
 void hal_toggle_builtin_led();
+void hal_set_builtin_led(bool state);
 
 
 #endif /* MAIN_HAL_H_ */

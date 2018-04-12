@@ -19,6 +19,20 @@ extern "C" {
 static char LOG_TAG[] = "SampleServer";
 
 
+/* Task that handles only the pin change */
+class KeepPinOn: public Task {
+	void run(void *data) {
+		ESP_LOGD("PinTask", "Turning pin on!");
+		hal_set_builtin_led(true);
+		delay(600000); // 10 minutes in ms
+		ESP_LOGD("PinTask", "Turning pin off!");
+		hal_set_builtin_led(false);
+		stop();
+	}
+};
+
+KeepPinOn* pKeepPinOn;
+
 
 /* Define callback for a received signature action.
  * Since we always receive 65 bytes of data
@@ -69,7 +83,7 @@ public:
 			if (pPymt->confirm((uint8_t *)signed_message.c_str(), signed_message.length()))
 			{
 				ESP_LOGD(LOG_TAG, "Succesfully confirmed payment!\n ");
-				hal_toggle_builtin_led();
+				pKeepPinOn->start();
 			}
 			else
 				ESP_LOGD(LOG_TAG, "Payment failed...\n ");
@@ -87,6 +101,8 @@ public:
 
 	}
 };
+
+
 
 
 class MainBLEServer: public Task {
@@ -144,7 +160,7 @@ class MainBLEServer: public Task {
 		pAdvertising->start();
 
 		ESP_LOGD(LOG_TAG, "Advertising started!");
-		delay(1000000);
+		delay(INT32_MAX);
 	}
 };
 
@@ -152,6 +168,9 @@ class MainBLEServer: public Task {
 void BLE_Server(void)
 {
 	MainBLEServer* pMainBleServer = new MainBLEServer();
+	pKeepPinOn = new KeepPinOn();
+	pKeepPinOn->setStackSize(5000);
+	pKeepPinOn->setName("PinTask");
 	pMainBleServer->setStackSize(20000);
 	pMainBleServer->start();
 

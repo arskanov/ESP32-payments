@@ -28,3 +28,7 @@ void hal_toggle_builtin_led() {
 	pinstate = !pinstate;
 	gpio_set_level(BLINK_GPIO, pinstate);
 }
+
+void hal_set_builtin_led(bool state) {
+	gpio_set_level(BLINK_GPIO, state);
+}
