@@ -1,2 +1,3 @@
-key.ini.php
+*.ini.php
 /vendor/
+test.php

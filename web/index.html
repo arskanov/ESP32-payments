@@ -57,13 +57,18 @@
         <ol>
           <li>Pistä ESP32:seen virrat päälle </li>
           <li>Paina "Pyydä Maksutapahtuma"</li>
-          <li>Sivu esittää sinulle maksuosoitteen - ohita se painamalla "Esitä maksavasi"</li>
-          <li>Katso, kuinka ESP32 indikoi maksun tapahtuneen</li>
+          <li>Yhdistä "Pay Here!" laitteeseen</li>
+          <li>Sivu esittää sinulle maksuosoitteen - Lähetä tänne Testnet BTC:tä yli 0.4 € arvosta</li>
+          <li>Paina "Levyt soimaan"</li>
+          <li>Sitten soitetaan sitä musaa, kerta siitä on maksettu</li>
         </ol>
 
 
-        <input id="reqpymtbutton" class="button-primary" type="submit" value="Pyydä Maksutapahtuma">
-        <input id="paybutton" class="button-primary" type="submit" value="Esitä maksavasi">
+        <input id="reqpymtbutton" class="button-primary" type="submit" value="Pyydä Maksuosoite">
+        <p>Payment address:
+          <a class="js-emaillink"> - </a>
+        </p>
+        <input id="verifybutton" class="button" type="submit" value="Levyt soimaan" disabled>
 
         <div class="csection">
           <h4>ESP32?</h4>
@@ -83,6 +88,7 @@
 </body>
 
 <script src="//cdn.jsdelivr.net/bluebird/3.5.0/bluebird.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
 <script src="script.js"></script>
 
 </html>

@@ -4,6 +4,7 @@ use BitWasp\Bitcoin\Address\PayToPubKeyHashAddress;
 use BitWasp\Bitcoin\Bitcoin;
 use BitWasp\Bitcoin\Key\PrivateKeyFactory;
 use BitWasp\Bitcoin\MessageSigner\MessageSigner;
+use BitWasp\Bitcoin\Network\NetworkFactory;
 
 // Load key
 require_once('key.ini.php');
@@ -14,40 +15,57 @@ session_start();
 // We'll return data as JSON
 header('Content-type: application/json');
 
-//// Check balance here
-$address = $_SESSION['address']; 
-
-//echo sprintf("I should check balance of %s, but I won't.<br>", $address->getAddress());
-
-// Signing part begin, use xprv9s21ZrQH143K2qU8wyQDydJ8s2PCzTZ9aKoKPCEVqbksZjpodm9VZjEYWqrGipmyknXdz9K1Pyro8zgWYTgpWDZ8EZPLifVHsXorvGLiAVa
-$ec = Bitcoin::getEcAdapter();
-
-//This is the signing private key used!
-$privateKey = PrivateKeyFactory::fromWif($pkWif);
-// Pubkey of this to verify against is 13s3MxSMsTwpxGC58KwPXaKTYMUXYJq3xj
-// or
-// 001F670551A387DACEF2F1BC4C1BC76D02C01F90F85169A3D8 in hex.
-
-if (isset($_SESSION['id'])) {
-    $message = $_SESSION['id'];
-    $signer = new MessageSigner($ec);
-    $signed = $signer->sign($message, $privateKey);
-    $address = new PayToPubKeyHashAddress($privateKey->getPublicKey()->getPubKeyHash());
-    $ret = array(
-        "pubkey" => $address->getAddress(),
-        "signed_id" => $signed->getBuffer()->getBinary(),
-        "error" => 0
-    );
-} else {
+// Check session is alive
+if ( ! isset($_SESSION['id'])) {
+    http_response_code(400);
     $ret = array(
         "signed_id" => "",
         "error" => "nosession"
     );
-}
+} 
+else
+{
+    /* Check balance */
+    $address = $_SESSION['address']; 
+    $url = "https://testnet.blockchain.info/q/addressbalance/" . $address;
 
-//$_SESSION = array();
-//session_unset();
-//session_destroy();
+    $value_in_sat_string = file_get_contents($url);
+
+    $sat = intval ($value_in_sat_string, 10);
+
+    /* Check for a hardcoded > 2000 satoshi balance */
+    if ($sat >= 2000) {
+        /* Start signing! */
+        Bitcoin::setNetwork(NetworkFactory::bitcoin());
+        $network = Bitcoin::getNetwork();
+
+        $ec = Bitcoin::getEcAdapter();
+
+        /* This is the signing private key used! */
+        $privateKey = PrivateKeyFactory::fromWif($pkWif);
+
+        $message = $_SESSION['id'];
+        $signer = new MessageSigner($ec);
+        $signed = $signer->sign($message, $privateKey);
+        $address = new PayToPubKeyHashAddress($privateKey->getPublicKey()->getPubKeyHash());
+        $ret = array(
+            "pubkey" => $address->getAddress(),
+            "signed_id" => $signed->getBuffer()->getBinary(),
+            "error" => ""
+        );
+        
+    }
+    else
+    {
+        /* You really didn't pay */
+        http_response_code(400);
+        $ret = array(
+            "pubkey" => "",
+            "signed_id" => "",
+            "error" => "not-paid"
+        );
+    }
+}
 
 echo json_encode($ret);
 
