@@ -1,0 +1,4 @@
+
+sqlalchemy==1.2.12
+falcon==1.4.1
+gunicorn==19.9.0
